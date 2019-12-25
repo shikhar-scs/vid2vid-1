@@ -12,7 +12,10 @@ def CreateDataset(opt):
         dataset = FaceDataset() 
     elif opt.dataset_mode == 'pose':
         from data.pose_dataset import PoseDataset
-        dataset = PoseDataset() 
+        dataset = PoseDataset()
+    elif opt.dataset_mode == 'oulu':
+        from data.oulu_dataset import OuluDataset
+        dataset = OuluDataset()
     elif opt.dataset_mode == 'test':
         from data.test_dataset import TestDataset
         dataset = TestDataset()
@@ -21,6 +24,7 @@ def CreateDataset(opt):
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
+    print(dataset.__getitem__(1))
     return dataset
 
 

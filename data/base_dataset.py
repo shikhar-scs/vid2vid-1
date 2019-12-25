@@ -5,6 +5,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 import numpy as np
 import random
+import skimage
 
 class BaseDataset(data.Dataset):
     def __init__(self):
@@ -99,6 +100,9 @@ def get_img_params(opt, size):
     elif 'randomScaleHeight' in opt.resize_or_crop: # randomly scale image height to be somewhere between loadSize and fineSize
         new_h = random.randint(opt.fineSize, opt.loadSize + 1)
         new_w = new_h * w // h
+    elif 'oulu128' in opt.resize_or_crop: #  simply resizes image to 128*128
+        new_h = 128
+        new_w = 128
     new_w = int(round(new_w / 4)) * 4
     new_h = int(round(new_h / 4)) * 4    
 

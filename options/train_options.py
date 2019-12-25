@@ -21,7 +21,8 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--no_html', action='store_true', help='do not save intermediate training results to [opt.checkpoints_dir]/[opt.name]/web/')
         
         # for discriminators        
-        self.parser.add_argument('--num_D', type=int, default=2, help='number of patch scales in each discriminator')        
+        # self.parser.add_argument('--num_D', type=int, default=2, help='number of patch scales in each discriminator')
+        self.parser.add_argument('--num_D', type=int, default=1, help='number of patch scales in each discriminator')
         self.parser.add_argument('--n_layers_D', type=int, default=3, help='number of layers in discriminator')
         self.parser.add_argument('--no_vgg', action='store_true', help='do not use VGG feature matching loss')        
         self.parser.add_argument('--no_ganFeat', action='store_true', help='do not match discriminator features')        
@@ -33,11 +34,17 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--lambda_F', type=float, default=10.0, help='weight for flow loss')
         self.parser.add_argument('--n_frames_D', type=int, default=3, help='number of frames to feed into temporal discriminator')        
         self.parser.add_argument('--n_scales_temporal', type=int, default=2, help='number of temporal scales in the temporal discriminator')        
+        # self.parser.add_argument('--max_frames_per_gpu', type=int, default=1, help='max number of frames to load into one GPU at a time')
         self.parser.add_argument('--max_frames_per_gpu', type=int, default=1, help='max number of frames to load into one GPU at a time')
-        self.parser.add_argument('--max_frames_backpropagate', type=int, default=1, help='max number of frames to backpropagate') 
+        self.parser.add_argument('--max_frames_backpropagate', type=int, default=1, help='max number of frames to backpropagate')
         self.parser.add_argument('--max_t_step', type=int, default=1, help='max spacing between neighboring sampled frames. If greater than 1, the network may randomly skip frames during training.')
-        self.parser.add_argument('--n_frames_total', type=int, default=30, help='the overall number of frames in a sequence to train with')                
+        # self.parser.add_argument('--n_frames_total', type=int, default=30, help='the overall number of frames in a sequence to train with')
+        self.parser.add_argument('--n_frames_total', type=int, default=30, help='the overall number of frames in a sequence to train with')
         self.parser.add_argument('--niter_step', type=int, default=5, help='how many epochs do we change training batch size again')
         self.parser.add_argument('--niter_fix_global', type=int, default=0, help='if specified, only train the finest spatial layer for the given iterations')
+
+        # for oulu
+        self.parser.add_argument('--source_view', type=int, default=1, help='the source view which is given as input')
+        self.parser.add_argument('--target_view', type=int, default=5, help='the target view which is expected as output')
 
         self.isTrain = True
