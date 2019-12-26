@@ -13,8 +13,8 @@ class OuluDataset(BaseDataset):
         self.target_view = opt.target_view
         # self.dir_A = os.path.join(opt.dataroot, opt.phase + '/phrase/' + str(opt.source_view))
         # self.dir_B = os.path.join(opt.dataroot, opt.phase + '/phrase/' + str(opt.target_view))
-        self.dir_A = os.path.join(opt.dataroot, opt.phase + '/digit/' + str(opt.source_view))
-        self.dir_B = os.path.join(opt.dataroot, opt.phase + '/digit/' + str(opt.target_view))
+        self.dir_A = os.path.join(opt.dataroot, str(opt.source_view) + '/' + opt.phase + '/')
+        self.dir_B = os.path.join(opt.dataroot, str(opt.target_view) + '/' + opt.phase + '/')
 
         self.A_paths = sorted(make_grouped_dataset(self.dir_A))
         self.B_paths = sorted(make_grouped_dataset(self.dir_B))
@@ -50,7 +50,7 @@ class OuluDataset(BaseDataset):
             A = Ai if i == 0 else torch.cat([A, Ai], dim=0)
             B = Bi if i == 0 else torch.cat([B, Bi], dim=0)
 
-        return_list = {'A': A, 'B': B, 'A_path': A_path, 'B_paths': B_path}
+        return_list = {'A': A, 'B': B, 'inst': 0, 'A_path': A_path, 'B_paths': B_path}
         # torch.save(A, 'A_Tensor.pt')
         return return_list
 
