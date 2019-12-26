@@ -21,8 +21,8 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--no_html', action='store_true', help='do not save intermediate training results to [opt.checkpoints_dir]/[opt.name]/web/')
         
         # for discriminators        
-        # self.parser.add_argument('--num_D', type=int, default=2, help='number of patch scales in each discriminator')
-        self.parser.add_argument('--num_D', type=int, default=1, help='number of patch scales in each discriminator')
+        self.parser.add_argument('--num_D', type=int, default=2, help='number of patch scales in each discriminator')
+        # self.parser.add_argument('--num_D', type=int, default=1, help='number of patch scales in each discriminator')
         self.parser.add_argument('--n_layers_D', type=int, default=3, help='number of layers in discriminator')
         self.parser.add_argument('--no_vgg', action='store_true', help='do not use VGG feature matching loss')        
         self.parser.add_argument('--no_ganFeat', action='store_true', help='do not match discriminator features')        

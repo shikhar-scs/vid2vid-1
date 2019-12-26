@@ -24,7 +24,6 @@ def CreateDataset(opt):
 
     print("dataset [%s] was created" % (dataset.name()))
     dataset.initialize(opt)
-    print(dataset.__getitem__(1))
     return dataset
 
 

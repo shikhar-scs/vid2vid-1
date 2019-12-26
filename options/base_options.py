@@ -16,8 +16,8 @@ class BaseOptions():
         self.parser.add_argument('--loadSize', type=int, default=128, help='scale images to this size')
         self.parser.add_argument('--fineSize', type=int, default=512, help='then crop to this size')
         self.parser.add_argument('--input_nc', type=int, default=3, help='# of input image channels')
-        # self.parser.add_argument('--label_nc', type=int, default=0, help='number of labels')
-        self.parser.add_argument('--label_nc', type=int, default=35, help='number of labels')
+        self.parser.add_argument('--label_nc', type=int, default=0, help='number of labels')
+        # self.parser.add_argument('--label_nc', type=int, default=3, help='number of labels')
         self.parser.add_argument('--output_nc', type=int, default=3, help='# of output image channels')
 
         # network arch
@@ -25,13 +25,13 @@ class BaseOptions():
         self.parser.add_argument('--ngf', type=int, default=128, help='# of gen filters in first conv layer')
         self.parser.add_argument('--ndf', type=int, default=64, help='# of discrim filters in first conv layer')    
         self.parser.add_argument('--n_blocks', type=int, default=9, help='number of resnet blocks in generator')
-        # self.parser.add_argument('--n_downsample_G', type=int, default=3, help='number of downsampling layers in netG')
-        self.parser.add_argument('--n_downsample_G', type=int, default=2, help='number of downsampling layers in netG')
+        self.parser.add_argument('--n_downsample_G', type=int, default=3, help='number of downsampling layers in netG')
+        # self.parser.add_argument('--n_downsample_G', type=int, default=2, help='number of downsampling layers in netG')
 
-        self.parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
+        self.parser.add_argument('--gpu_ids', type=str, default='4', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
         self.parser.add_argument('--n_gpus_gen', type=int, default=-1, help='how many gpus are used for generator (the rest are used for discriminator). -1 means use all gpus')
         # self.parser.add_argument('--name', type=str, default='experiment_name', help='name of the experiment. It decides where to store samples and models')
-        self.parser.add_argument('--name', type=str, default='label2city_256_g1', help='name of the experiment. It decides where to store samples and models')
+        self.parser.add_argument('--name', type=str, default='edge2face_256_g1', help='name of the experiment. It decides where to store samples and models')
         self.parser.add_argument('--dataset_mode', type=str, default='oulu', help='chooses how datasets are loaded. [unaligned | aligned | single]')
         self.parser.add_argument('--model', type=str, default='vid2vid', help='chooses which model to use. vid2vid, test')        
         self.parser.add_argument('--nThreads', default=2, type=int, help='# threads for loading data')
@@ -110,15 +110,15 @@ class BaseOptions():
             self.opt.n_gpus_gen = len(self.opt.gpu_ids)
         
         # set gpu ids
-        # if len(self.opt.gpu_ids) > 0:
-        #     torch.cuda.set_device(self.opt.gpu_ids[0])
+        if len(self.opt.gpu_ids) > 0:
+            torch.cuda.set_device(self.opt.gpu_ids[0])
 
         args = vars(self.opt)
 
-        # print('------------ Options -------------')
-        # for k, v in sorted(args.items()):
-        #     print('%s: %s' % (str(k), str(v)))
-        # print('-------------- End ----------------')
+        print('------------ Options -------------')
+        for k, v in sorted(args.items()):
+            print('%s: %s' % (str(k), str(v)))
+        print('-------------- End ----------------')
 
         # save to the disk        
         expr_dir = os.path.join(self.opt.checkpoints_dir, self.opt.name)
