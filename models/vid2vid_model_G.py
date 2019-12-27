@@ -293,7 +293,14 @@ class Vid2VidModelG(BaseModel):
 
         else:
             raise ValueError('Single image generator does not exist')
-        netG.load_state_dict(torch.load(load_path))        
+
+        state_dict = torch.load(load_path)
+        from collections import OrderedDict
+        new_state_dict = OrderedDict()
+        for k, v in state_dict.items():
+            name = k[7:]  # remove module.
+            new_state_dict[name] = v
+        netG.load_state_dict(new_state_dict)
         return netG
 
     def get_face_features(self, real_image, inst):                
