@@ -110,15 +110,15 @@ class BaseOptions():
             self.opt.n_gpus_gen = len(self.opt.gpu_ids)
         
         # set gpu ids
-        # if len(self.opt.gpu_ids) > 0:
-        #     torch.cuda.set_device(self.opt.gpu_ids[0])
+        if len(self.opt.gpu_ids) > 0:
+            torch.cuda.set_device(self.opt.gpu_ids[0])
 
         args = vars(self.opt)
 
-        # print('------------ Options -------------')
-        # for k, v in sorted(args.items()):
-        #     print('%s: %s' % (str(k), str(v)))
-        # print('-------------- End ----------------')
+        print('------------ Options -------------')
+        for k, v in sorted(args.items()):
+            print('%s: %s' % (str(k), str(v)))
+        print('-------------- End ----------------')
 
         # save to the disk        
         expr_dir = os.path.join(self.opt.checkpoints_dir, self.opt.name)

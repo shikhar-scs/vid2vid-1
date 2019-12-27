@@ -21,9 +21,7 @@ class OuluDataset(BaseDataset):
         check_path_valid(self.A_paths, self.B_paths)
 
         self.n_of_seqs = len(self.A_paths)  # number of sequences to train
-        # self.seq_len_max = max([len(A) for A in self.A_paths])
-        self.seq_len_max = 30
-        self.n_frames_total = self.opt.n_frames_total  # current number of frames to train in a single iteration
+        self.seq_len_max = max([len(A) for A in self.A_paths])
 
     def __getitem__(self, index):
         tG = self.opt.n_frames_G

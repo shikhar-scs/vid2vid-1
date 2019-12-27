@@ -274,14 +274,23 @@ class Vid2VidModelG(BaseModel):
                 netG = networks.define_G(35, 3, 0, 32, 'local', 4, 'instance', 0, self.gpu_ids, opt)
             else:
                 raise ValueError('Single image generator does not exist')
-        elif 'face' in self.opt.dataroot:            
+        elif 'face' in self.opt.dataroot:
             single_path = 'checkpoints/edge2face_single/'
-            load_path = single_path + 'latest_net_G.pth' 
-            opt.feat_num = 16           
+            load_path = single_path + 'latest_net_G.pth'
+            opt.feat_num = 16
             netG = networks.define_G(15, 3, 0, 64, 'global_with_features', 3, 'instance', 0, self.gpu_ids, opt)
             encoder_path = single_path + 'latest_net_E.pth'
             self.netE = networks.define_G(3, 16, 0, 16, 'encoder', 4, 'instance', 0, self.gpu_ids)
             self.netE.load_state_dict(torch.load(encoder_path))
+        elif 'oulu' in self.opt.dataroot:
+            single_path = 'checkpoints/edge2face_256_g1/'
+            load_path = single_path + 'latest_net_G0.pth'
+            # define_G(input_nc, output_nc, prev_output_nc, ngf, which_model_netG, n_downsampling, norm, scale, gpu_ids=[], opt=[]):
+            netG = networks.define_G(3, 3, 0, 128, 'global', 2, 'instance', 0, self.gpu_ids, opt)
+            # encoder_path = single_path + 'latest_net_E.pth'
+            # self.netE = networks.define_G(3, 3, 0, 16, 'encoder', 4, 'instance', 0, self.gpu_ids)
+            # self.netE.load_state_dict(torch.load(encoder_path))
+
         else:
             raise ValueError('Single image generator does not exist')
         netG.load_state_dict(torch.load(load_path))        

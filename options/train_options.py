@@ -45,6 +45,6 @@ class TrainOptions(BaseOptions):
 
         # for oulu
         self.parser.add_argument('--source_view', type=int, default=1, help='the source view which is given as input')
-        self.parser.add_argument('--target_view', type=int, default=5, help='the target view which is expected as output')
+        self.parser.add_argument('--target_view', type=int, default=3, help='the target view which is expected as output')
 
         self.isTrain = True
