@@ -25,14 +25,13 @@ class BaseDataset(data.Dataset):
             print('--------- Updating training sequence length to %d ---------' % self.n_frames_total)
 
     def init_frame_idx(self, A_paths):
-        print(self.opt.max_dataset_size)
-        self.n_of_seqs = min(len(A_paths), self.opt.max_dataset_size)         # number of sequences to train
-        self.seq_len_max = len(A_paths)                    # max number of frames in the training sequences
-
+        self.n_of_seqs = min(len(A_paths), self.opt.max_dataset_size)        # number of sequences to train
+        self.seq_len_max = max([len(A) for A in A_paths])                    # max number of frames in the training sequences
         self.seq_idx = 0                                                      # index for current sequence
         self.frame_idx = self.opt.start_frame if not self.opt.isTrain else 0  # index for current frame in the sequence
         self.frames_count = []                                                # number of frames in each sequence
-        self.frames_count.append(len(A_paths) - self.opt.n_frames_G + 1)
+        for path in A_paths:
+            self.frames_count.append(len(path) - self.opt.n_frames_G + 1)
 
         self.folder_prob = [count / sum(self.frames_count) for count in self.frames_count]
         self.n_frames_total = self.opt.n_frames_total if self.opt.isTrain else 1 
@@ -47,7 +46,7 @@ class BaseDataset(data.Dataset):
                 seq_idx = index % self.n_of_seqs            
             return None, None, None, seq_idx
         else:
-            self.change_seq = False
+            self.change_seq = self.frame_idx >= self.frames_count[self.seq_idx]
             if self.change_seq:
                 self.seq_idx += 1
                 self.frame_idx = 0
